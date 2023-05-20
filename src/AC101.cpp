@@ -177,7 +177,9 @@ bool AC101::begin(int sda, int scl, uint32_t frequency)
     ok &= WriteReg(SPKOUT_CTRL, 0xe880);
 
     // Enable the PLL from 256*44.1KHz MCLK source
+#if 0
     uint16_t DPLL_DAC_BIAS = 0 << 14;
+#endif
     ok &= WriteReg(PLL_CTRL1, 0x0141); // 0x014f, Factor=1, M=1
 
 #if 0
@@ -284,14 +286,14 @@ uint8_t AC101::GetVolumeHeadphone()
 
 bool AC101::SetVolumeHeadphone(uint8_t volume)
 {
-    if (volume > 63)
+    if (volume > 63U)
     {
-        volume = 63;
+        volume = 63U;
     }
 
     uint16_t val = ReadReg(HPOUT_CTRL);
-    val &= ~63 << 4;
-    val |= volume << 4;
+    val &= ~63U << 4U;
+    val |= volume << 4U;
     return WriteReg(HPOUT_CTRL, val);
 }
 
